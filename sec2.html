@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Pratique CompTIA Security+</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .quiz-container {
+            padding: 30px;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 20px;
+            margin: 30px 0 20px 0;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .question-number {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .validate-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .validate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .validate-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .correct {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .incorrect {
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-weight: normal;
+            line-height: 1.6;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test de Pratique CompTIA Security+</h1>
+            <p>Testez vos connaissances avec 84 questions complètes couvrant tous les domaines de la sécurité</p>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="stats">
+                <strong>Progression : <span id="answered">0</span>/84 questions répondues</strong>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="section-title">2.0 - Architecture and Design</div>
+            
+            <div class="question-card">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Quel est un avantage clé de la mise en œuvre d'une stratégie de défense en profondeur dans l'architecture IT ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="a"> Simplifie la gestion du réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="b"> Provides multiple layers of security
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="c"> Réduit les coûts matériels
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="d"> Élimine le besoin de surveillance
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q1', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">Quelle approche architecturale garantit que les politiques de sécurité sont intégrées dès la phase de conception d'un système ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q2" value="a"> Waterfall model
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="b"> Secure by design
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="c"> Agile development
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="d"> Spiral model
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q2', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.1 - Configuration Management</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Quel est l'objectif principal d'une configuration de base dans la gestion de configuration ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q3" value="a"> Améliorer les performances du système
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="b"> To provide a standard for system setup and security
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="c"> Réduire les coûts des licences logicielles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="d"> Automatiser l'authentification des utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q3', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">Quel outil est couramment utilisé pour la gestion automatisée de la configuration dans les réseaux à grande échelle ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q4" value="a"> Microsoft Excel
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="b"> CFEngine
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="c"> Notepad++
+                    </label>
+                    who <label class="option">
+                        <input type="radio" name="q4" value="d"> Windows Task Manager
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q4', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.1 - Protecting Data</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">Quelle est la méthode principale pour protéger les données sensibles pendant leur transfert dans un environnement cloud ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q5" value="a"> Compression
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="b"> Encryption
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="c"> Data deduplication
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="d"> Load balancing
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q5', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.1 - Cloud Security</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">Quelle est une pratique de sécurité clé dans un modèle de responsabilité partagée pour le cloud computing ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q6" value="a"> S'appuyer uniquement sur le fournisseur cloud
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="b"> Implementing access controls and encryption
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="c"> Désactiver tous les outils de surveillance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="d"> Utiliser les configurations par défaut
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q6', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">Quel est l'objectif d'un Virtual Private Cloud (VPC) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q7" value="a"> Partager les ressources publiquement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="b"> To provide isolated network environments
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="c"> Désactiver le chiffrement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="d"> Augmenter la latence
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q7', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.1 - Identity and Access Management</div>
+
+ <div class="question-card">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">Quel modèle de contrôle d'accès est basé sur les rôles des utilisateurs ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q8" value="a"> Discretionary Access Control (DAC)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="b"> Role-Based Access Control (RBAC)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="c"> Mandatory Access Control (MAC)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="d"> Attribute-Based Access Control (ABAC)
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q8', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            Ascending
+            <div class="question-card">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">Qu'est-ce qui renforce la sécurité en exigeant plusieurs méthodes de vérification ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q9" value="a"> Single Sign-On (SSO)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="b"> Multi-Factor Authentication (MFA)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="c"> Password hashing
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="d"> Account lockout
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q9', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.2 - Network Security</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">Qu'est-ce qu'un security group dans le réseau cloud ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q10" value="a"> Un pare-feu physique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="b"> A virtual firewall controlling traffic
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="c"> Un système d'authentification des utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="d"> Un outil de chiffrement des données
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q10', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">Quelle est la fonction principale des outils de Data Loss Prevention (DLP) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q11" value="a"> Augmenter la vitesse du réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="b"> To prevent unauthorized data sharing
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="d"> Optimiser le stockage
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q11', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.2 - Application Security</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Contre quoi un Web Application Firewall (WAF) protège-t-il ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q12" value="a"> Vol physique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="b"> Web-based attacks like SQL injection
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="c"> Pannes matérielles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="d"> Pannes de courant
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q12', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">Quel est le rôle d'un Intrusion Detection System (IDS) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q13" value="a"> Chiffrer le trafic réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="b"> To monitor for suspicious activity
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="d"> Optimiser la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q13', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.3 - Security Assessments</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">Quel est l'objectif du penetration testing ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q14" value="a"> Installer des mises à jour logicielles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="b"> To identify vulnerabilities
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="c"> Configurer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="d"> Gérer les permissions des utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q14', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 15</div>
+                <div class="question-text">Quel est un principe fondamental de l'architecture zero-trust ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q15" value="a"> Faire confiance à tous les utilisateurs internes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="b"> Verify every user and device
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="c"> Désactiver le chiffrement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="d"> Autoriser un accès libre
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q15', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.3 - Network Architecture</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 16</div>
+                <div class="question-text">Quel est l'avantage de la segmentation du réseau ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q16" value="a"> Augmente l'utilisation de la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="b"> Limits attack spread
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="c"> Réduit les besoins en chiffrement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="d"> Simplifie la surveillance
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q16', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 17</div>
+                <div class="question-text">Quel est l'objectif d'une Demilitarized Zone (DMZ) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q17" value="a"> Stocker des données sensibles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="b"> To host public-facing services
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="c"> Désactiver les pare-feu
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="d"> Gérer les sauvegardes
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q17', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.3 - Network Segmentation</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 18</div>
+                <div class="question-text">Que fournit un VLAN dans la segmentation du réseau ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q18" value="a"> Séparation physique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="b"> Logical separation
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="c"> Augmentation de la latence
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="d"> Réduction de la sécurité
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q18', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 19</div>
+                <div class="question-text">Quel protocole fournit une communication sécurisée sur les réseaux IP ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q19" value="a"> FTP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="b"> IPsec
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="c"> HTTP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="d"> SNMP
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q19', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.3 - Secure Communication</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 20</div>
+                <div class="question-text">Quelle est la fonction principale d'un Virtual Private Network (VPN) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q20" value="a"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="b"> To create a secure tunnel
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="c"> Gérer le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q20', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 21</div>
+                <div class="question-text">Quel protocole est utilisé pour sécuriser la navigation web ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q21" value="a"> FTP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="b"> SSL/TLS
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="c"> SNMP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="d"> Telnet
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q21', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.3 - Network Devices</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 22</div>
+                <div class="question-text">Quel est le rôle d'un proxy server dans la sécurité réseau ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q22" value="a"> Stocker des données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="b"> To filter and anonymize traffic
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="d"> Augmenter la latence
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q22', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 23</div>
+                <div class="question-text">Que fournit une Endpoint Protection Platform (EPP) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q23" value="a"> Network segmentation
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="b"> Comprehensive device security
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="c"> Compression des données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="d"> Authentification des utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q23', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.4 - System Hardening</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 24</div>
+                <div class="question-text">Quel est l'objectif du patch management ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q24" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="b"> To apply security updates
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="d"> Optimiser la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q24', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 25</div>
+                <div class="question-text">À quoi sert un Security Information and Event Management (SIEM) system ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q25" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="b"> To analyze security logs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q25', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.4 - Monitoring and Logging</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 26</div>
+                <div class="question-text">Quel est l'avantage de l'agrégation des journaux ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q26" value="a"> Réduit les besoins de stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="b"> Centralizes security analysis
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="c"> Augmente la latence
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="d"> Désactive la surveillance
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q26', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 27</div>
+                <div class="question-text">Quel est l'objectif d'un honeypot ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q27" value="a"> Stocker des données sensibles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="b"> To attract and analyze attacks
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="d"> Optimiser la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q27', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.4 - Vulnerability Management</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 28</div>
+                <div class="question-text">Quel est l'objectif du vulnerability scanning ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q28" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="b"> To identify system weaknesses
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q28', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 29</div>
+                <div class="question-text">Quel est l'objectif d'une évaluation des risques ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q29" value="a"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="b"> To prioritize security measures
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="c"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q29', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.4 - Security Principles</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 30</div>
+                <div class="question-text">Que garantit le principe du moindre privilège ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q30" value="a"> Accès maximal des utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="b"> Minimal necessary access
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="c"> Aucune authentification utilisateur
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="d"> Accès réseau ouvert
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q30', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 31</div>
+                <div class="question-text">Quel est l'objectif d'un Business Continuity Plan (BCP) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q31" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="b"> To maintain operations during disruptions
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="c"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="d"> Gérer les comptes utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q31', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Disaster Recovery</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 32</div>
+                <div class="question-text">Quel est l'objectif principal d'un Disaster Recovery Plan (DRP) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q32" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="b"> To restore IT systems after incidents
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="c"> Désactiver les pare-feu
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="d"> Gérer les comptes utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q32', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 33</div>
+                <div class="question-text">Quel est l'avantage des alimentations électriques redondantes ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q33" value="a"> Augmentation de la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q33" value="b"> Continuous operation during outages
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q33" value="c"> Réduction des besoins de stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q33" value="d"> Simplification de la surveillance
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q33', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - High Availability</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 34</div>
+                <div class="question-text">Quelle est une caractéristique des systèmes à haute disponibilité (High Availability - HA) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q34" value="a"> Temps d'arrêt fréquent
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q34" value="b"> Minimal downtime
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q34" value="c"> Aucune redondance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q34" value="d"> Point de défaillance unique
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q34', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 35</div>
+                <div class="question-text">Quel est l'objectif du load balancing ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q35" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q35" value="b"> To distribute network traffic
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q35" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q35" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q35', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Backup and Recovery</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 36</div>
+                <div class="question-text">Quel est l'objectif d'un snapshot dans la virtualisation ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q36" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q36" value="b"> To capture a system state
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q36" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q36" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q36', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 37</div>
+                <div class="question-text">Quel est l'avantage de la data deduplication dans les sauvegardes ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q37" value="a"> Augmentation de la latence
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q37" value="b"> Reduced storage needs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q37" value="c"> Simplification de la surveillance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q37" value="d"> Désactivation du chiffrement
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q37', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Recovery Sites</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 38</div>
+                <div class="question-text">Quelle est une caractéristique d'un hot site ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q38" value="a"> Équipement minimal
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q38" value="b"> Fully equipped and ready
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q38" value="c"> Aucune alimentation électrique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q38" value="d"> Temps de configuration long
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q38', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 39</div>
+                <div class="question-text">Quelle est une caractéristique d'un cold site ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q39" value="a"> Complètement opérationnel
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q39" value="b"> Minimal infrastructure
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q39" value="c"> Disponibilité immédiate
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q39" value="d"> Systèmes pré-installés
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q39', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 40</div>
+                <div class="question-text">Quelle est une caractéristique d'un warm site ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q40" value="a"> Aucun équipement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q40" value="b"> Partially equipped
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q40" value="c"> Complètement opérationnel
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q40" value="d"> Long temps d'arrêt
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q40', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Failover Systems</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 41</div>
+                <div class="question-text">Quel est l'objectif du failover ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q41" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q41" value="b"> To switch to a backup system
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q41" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q41" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q41', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Service Agreements</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 42</div>
+                <div class="question-text">Que définit un Service Level Agreement (SLA) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q42" value="a"> Permissions des utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q42" value="b"> Performance expectations
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q42" value="c"> Chiffrement des données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q42" value="d"> Network segmentation
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q42', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Compliance</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 43</div>
+                <div class="question-text">Quel est l'objectif de la data sovereignty ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q43" value="a"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q43" value="b"> To ensure legal compliance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q43" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q43" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q43', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 44</div>
+                <div class="question-text">Quel règlement se concentre sur la protection des données personnelles ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q44" value="a"> ISO 27001
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q44" value="b"> GDPR
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q44" value="c"> NIST 800-53
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q44" value="d"> PCI DSS
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q44', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Incident Response</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 45</div>
+                <div class="question-text">Quel est l'objectif d'une chaîne de custody ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q45" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q45" value="b"> To document evidence handling
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q45" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q45" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q45', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 46</div>
+                <div class="question-text">Quel est l'objectif de la planification de la réponse aux incidents ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q46" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q46" value="b"> To manage security incidents
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q46" value="c"> Désactiver les pare-feu
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q46" value="d"> Optimiser la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q46', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 47</div>
+                <div class="question-text">À quoi sert un tabletop exercise ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q47" value="a"> Chiffrer les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q47" value="b"> To test incident response plans
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q47" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q47" value="d"> Augmenter la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q47', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 48</div>
+                <div class="question-text">Quel est l'objectif de l'analyse forensic ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q48" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q48" value="b"> To investigate security incidents
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q48" value="c"> Désactiver les pare-feu
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q48" value="d"> Gérer les comptes utilisateurs
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q48', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Backup Types</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 49</div>
+                <div class="question-text">Quel type de sauvegarde capture uniquement les modifications depuis la dernière sauvegarde complète ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q49" value="a"> Full backup
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q49" value="b"> Incremental backup
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q49" value="c"> Differential backup
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q49" value="d"> Snapshot backup
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q49', 'c', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 50</div>
+                <div class="question-text">Quelle est une caractéristique d'une full backup ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q50" value="a"> La plus rapide à effectuer
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q50" value="b"> Captures all data regardless of previous backups
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q50" value="c"> Nécessite un stockage minimal
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q50" value="d"> Sauvegarde uniquement les fichiers modifiés
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q50', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.5 - Resiliency</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 51</div>
+                <div class="question-text">Quelle est une caractéristique clé de la résilience dans le cloud computing ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q51" value="a"> Conceptions avec un point de défaillance unique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q51" value="b"> Ability to recover quickly from disruptions
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q51" value="c"> Provisionnement manuel des ressources
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q51" value="d"> Évolutivité limitée
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q51', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 52</div>
+                <div class="question-text">Comment les fournisseurs cloud améliorent-ils la résilience ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q52" value="a"> En utilisant un seul centre de données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q52" value="b"> By implementing geographic redundancy
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q52" value="c"> En désactivant les sauvegardes automatisées
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q52" value="d"> En réduisant le regroupement des ressources
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q52', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.6 - Embedded Systems</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 53</div>
+                <div class="question-text">Quelle est une caractéristique des embedded systems dans les dispositifs IoT ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q53" value="a"> Haute modularité
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q53" value="b"> Limited processing power
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q53" value="c"> Grand facteur de forme
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q53" value="d"> Mises à jour matérielles extensives
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q53', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 54</div>
+                <div class="question-text">Quel type de système embarqué est utilisé dans les équipements industriels en temps réel ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q54" value="a"> General-purpose OS
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q54" value="b"> Real-time OS
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q54" value="c"> Virtualized OS
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q54" value="d"> Cloud-based OS
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q54', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.6 - Embedded Systems Communication</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 55</div>
+                <div class="question-text">Quel protocole est couramment utilisé pour la communication des systèmes embarqués dans l'IoT ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q55" value="a"> HTTP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q55" value="b"> MQTT
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q55" value="c"> FTP
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q55" value="d"> SMTP
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q55', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 56</div>
+                <div class="question-text">Pourquoi la segmentation est-elle importante pour la communication des systèmes embarqués ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q56" value="a"> Augmenter l'utilisation de la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q56" value="b"> To isolate systems and enhance security
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q56" value="c"> Réduire les transferts de données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q56" value="d"> Désactiver le traitement cloud
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q56', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.6 - Embedded Systems Constraints</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 57</div>
+                <div class="question-text">Quelle est une contrainte courante des systèmes embarqués ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q57" value="a"> Alimentation électrique illimitée
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q57" value="b"> Limited memory and processing resources
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q57" value="c"> Haute modularité
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q57" value="d"> Interfaces utilisateur extensives
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q57', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 58</div>
+                <div class="question-text">Comment les contraintes des systèmes embarqués affectent-elles la sécurité ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q58" value="a"> Elles simplifient la mise en œuvre de la sécurité
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q58" value="b"> They require lightweight security protocols
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q58" value="c"> Elles éliminent le besoin de chiffrement
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q58" value="d"> Elles augmentent la vitesse de traitement
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q58', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.7 - Physical Security Controls</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 59</div>
+                <div class="question-text">Quel contrôle de sécurité physique restreint l'accès à un centre de données ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q59" value="a"> Politiques d'accès libre
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q59" value="b"> Biometric locks
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q59" value="c"> Entrées non surveillées
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q59" value="d"> Cartes-clés publiques
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q59', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 60</div>
+                <div class="question-text">Quel est l'objectif des caméras de surveillance dans la sécurité physique ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q60" value="a"> Augmenter la bande passante réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q60" value="b"> To monitor and deter unauthorized access
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q60" value="c"> Gérer les sauvegardes de données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q60" value="d"> Optimiser l'utilisation de l'énergie
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q60', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.7 - Secure Areas</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 61</div>
+                <div class="question-text">Quelle est une caractéristique d'une zone sécurisée dans un centre de données ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q61" value="a"> Accès non restreint
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q61" value="b"> Controlled entry with authentication
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q61" value="c"> Aucun système de surveillance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q61" value="d"> Réseaux Wi-Fi ouverts
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q61', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 62</div>
+                <div class="question-text">Quelle mesure améliore la sécurité dans une zone restreinte ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q62" value="a"> Désactivation des journaux d'accès
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q62" value="b"> Implementing mantraps
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q62" value="c"> Utilisation d'une authentification à facteur unique
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q62" value="d"> Éviter les barrières physiques
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q62', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.7 - Secure Data Destruction</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 63</div>
+                                <div class="question-text">Quelle est une méthode sécurisée pour la destruction des données sur des supports physiques ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q63" value="a"> Formatage rapide
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q63" value="b"> Physical shredding
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q63" value="c"> Suppression de fichiers
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q63" value="d"> Partitionnement du disque
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q63', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 64</div>
+                <div class="question-text">Quel est l’objectif du dégaussage dans la destruction sécurisée des données ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q64" value="a"> Compresser les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q64" value="b"> To erase magnetic media
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q64" value="c"> Sauvegarder les données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q64" value="d"> Partitionner les disques
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q64', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.8 - Personnel Security</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 65</div>
+                <div class="question-text">Quel est l’objectif de la vérification des antécédents pour le personnel ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q65" value="a"> Augmenter la productivité
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q65" value="b"> To ensure trustworthiness
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q65" value="c"> Réduire les coûts de formation
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q65" value="d"> Gérer les sauvegardes
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q65', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 66</div>
+                <div class="question-text">Quelle pratique réduit le risque de social engineering parmi les employés ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q66" value="a"> Partage de mots de passe
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q66" value="b"> Security awareness training
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q66" value="c"> Politiques d’accès ouvert
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q66" value="d"> Ignorer les journaux d’accès
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q66', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.8 - Vendor Management</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 67</div>
+                <div class="question-text">Quel est l’objectif d’un Non-Disclosure Agreement (NDA) avec les fournisseurs ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q67" value="a"> Augmenter la vitesse du réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q67" value="b"> To ensure confidentiality
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q67" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q67" value="d"> Réduire les coûts matériels
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q67', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 68</div>
+                <div class="question-text">Pourquoi est-il important d’auditer les fournisseurs tiers ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q68" value="a"> Optimiser la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q68" value="b"> To verify security compliance
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q68" value="c"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q68" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q68', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.9 - Security Governance</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 69</div>
+                <div class="question-text">Quel est l’objectif d’un comité de gouvernance de la sécurité ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q69" value="a"> Gérer les sauvegardes quotidiennes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q69" value="b"> To oversee security policies
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q69" value="c"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q69" value="d"> Configurer les comptes utilisateur
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q69', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 70</div>
+                <div class="question-text">Quel est l’objectif des audits de sécurité réguliers ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q70" value="a"> Réduire les coûts matériels
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q70" value="b"> To ensure compliance and identify gaps
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q70" value="c"> Augmenter la vitesse du réseau
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q70" value="d"> Désactiver les journaux d’accès
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q70', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.9 - Risk Management</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 71</div>
+                <div class="question-text">Quel est l’objectif de l’atténuation des risques ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q71" value="a"> Ignorer les vulnérabilités
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q71" value="b"> To reduce risk impact
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q71" value="c"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q71" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q71', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 72</div>
+                <div class="question-text">Qu’est-ce qu’un transfert de risque ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q72" value="a"> Ignorer les menaces
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q72" value="b"> Shifting risk to another party
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q72" value="c"> Augmenter les vulnérabilités
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q72" value="d"> Désactiver les contrôles de sécurité
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q72', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.9 - Third-Party Risk</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 73</div>
+                <div class="question-text">Pourquoi évalue-t-on les risques des tiers ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q73" value="a"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q73" value="b"> To identify external vulnerabilities
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q73" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q73" value="d"> Réduire les coûts matériels
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q73', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 74</div>
+                <div class="question-text">Quel est un exemple de gestion des risques des tiers ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q74" value="a"> Ignorer les audits des fournisseurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q74" value="b"> Vendor security assessments
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q74" value="c"> Désactiver les journaux d’accès
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q74" value="d"> Augmenter les vulnérabilités
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q74', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.9 - Supply Chain Risk</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 75</div>
+                <div class="question-text">Quel est un exemple de risque lié à la chaîne d’approvisionnement ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q75" value="a"> Augmentation de la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q75" value="b"> Compromised hardware components
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q75" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q75" value="d"> Réduction des coûts logiciels
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q75', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 76</div>
+                <div class="question-text">Comment atténuer les risques de la chaîne d’approvisionnement ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q76" value="a"> Ignorer les audits des fournisseurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q76" value="b"> Diversifying suppliers
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q76" value="c"> Réduire les contrôles de sécurité
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q76" value="d"> Désactiver les journaux d’accès
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q76', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.10 - Cryptography</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 77</div>
+                <div class="question-text">Quel est l’objectif du chiffrement symétrique ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q77" value="a"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q77" value="b"> To secure data with a single key
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q77" value="c"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q77" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q77', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 78</div>
+                <div class="question-text">Quel est un exemple d’algorithme de chiffrement asymétrique ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q78" value="a"> AES
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q78" value="b"> RSA
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q78" value="c"> Blowfish
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q78" value="d"> DES
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q78', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.10 - Key Management</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 79</div>
+                <div class="question-text">Quel est l’objectif de la rotation des clés ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q79" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q79" value="b"> To enhance cryptographic security
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q79" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q79" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q79', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 80</div>
+                <div class="question-text">Quel est un exemple de dispositif de gestion sécurisée des clés ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q80" value="a"> USB standard
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q80" value="b"> Hardware Security Module (HSM)
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q80" value="c"> Disque dur externe
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q80" value="d"> Clé USB non chiffrée
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q80', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.10 - Digital Signatures</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 81</div>
+                <div class="question-text">Quel est l’objectif d’une signature numérique ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q81" value="a"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q81" value="b"> To verify authenticity and integrity
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q81" value="c"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q81" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q81', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 82</div>
+                <div class="question-text">Quel mécanisme est utilisé pour créer une signature numérique ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q82" value="a"> Compression de données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q82" value="b"> Private key encryption
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q82" value="c"> Sauvegarde de données
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q82" value="d"> Partitionnement de disque
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q82', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="section-title">2.10 - PKI</div>
+
+            <div class="question-card">
+                <div class="question-number">Question 83</div>
+                <div class="question-text">Quel est le rôle d’une Certificate Authority (CA) dans une PKI ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q83" value="a"> Gérer les sauvegardes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q83" value="b"> To issue digital certificates
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q83" value="c"> Augmenter la bande passante
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q83" value="d"> Désactiver les pare-feu
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q83', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">Question 84</div>
+                <div class="question-text">Quel est l’objectif d’un Certificate Revocation List (CRL) ?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q84" value="a"> Augmenter le stockage
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q84" value="b"> To track revoked certificates
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q84" value="c"> Gérer les comptes utilisateurs
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q84" value="d"> Optimiser la bande passante
+                    </label>
+                </div>
+                <button class="validate-btn" onclick="validateAnswer('q84', 'b', this)">Valider la réponse</button>
+                <div class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let answeredCount = 0;
+        const totalQuestions = 84;
+
+        function validateAnswer(questionName, correctAnswer, button) {
+            const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+            const resultDiv = button.nextElementSibling;
+            const explanationDiv = document.createElement('div');
+            explanationDiv.classList.add('explanation');
+
+            if (!selectedOption) {
+                resultDiv.textContent = 'Veuillez sélectionner une option.';
+                resultDiv.classList.add('incorrect');
+                resultDiv.style.display = 'block';
+                return;
+            }
+
+            const isCorrect = selectedOption.value === correctAnswer;
+            resultDiv.style.display = 'block';
+            button.disabled = true;
+
+            if (isCorrect) {
+                resultDiv.textContent = 'Correct !';
+                resultDiv.classList.add('correct');
+                resultDiv.classList.remove('incorrect');
+                explanationDiv.textContent = getExplanation(questionName, true);
+            } else {
+                resultDiv.textContent = 'Incorrect. La réponse correcte est : ' + getCorrectOptionText(questionName, correctAnswer);
+                resultDiv.classList.add('incorrect');
+                resultDiv.classList.remove('correct');
+                explanationDiv.textContent = getExplanation(questionName, false);
+            }
+
+            resultDiv.appendChild(explanationDiv);
+            answeredCount++;
+            updateProgress();
+        }
+
+        function getCorrectOptionText(questionName, correctAnswer) {
+            const correctOption = document.querySelector(`input[name="${questionName}"][value="${correctAnswer}"]`);
+            return correctOption.parentElement.textContent.trim();
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressBar');
+            const answeredText = document.getElementById('answered');
+            const percentage = (answeredCount / totalQuestions) * 100;
+            progressFill.style.width = percentage + '%';
+            answeredText.textContent = answeredCount;
+        }
+
+        function getExplanation(questionName, isCorrect) {
+            const explanations = {
+                'q1': isCorrect ? 'Une stratégie de défense en profondeur fournit plusieurs couches de sécurité, réduisant le risque qu’une seule défaillance compromise l’ensemble du système.' : 'La réponse correcte est "Provides multiple layers of security". Cela garantit une protection robuste via plusieurs contrôles.',
+                'q2': isCorrect ? 'Secure by design intègre les politiques de sécurité dès la phase de conception, minimisant les vulnérabilités.' : 'La réponse correcte est "Secure by design". Cela garantit que la sécurité est une priorité dès le départ.',
+                'q3': isCorrect ? 'Une configuration de base fournit une norme pour la configuration et la sécurité des systèmes, assurant la cohérence.' : 'La réponse correcte est "To provide a standard for system setup and security". Cela standardise les configurations.',
+                'q4': isCorrect ? 'CFEngine est un outil couramment utilisé pour la gestion automatisée de la configuration à grande échelle.' : 'La réponse correcte est "CFEngine". C’est un outil puissant pour l’automatisation.',
+                'q5': isCorrect ? 'Encryption protège les données sensibles pendant leur transfert dans le cloud.' : 'La réponse correcte est "Encryption". Cela sécurise les données en transit.',
+                'q6': isCorrect ? 'Dans un modèle de responsabilité partagée, mettre en œuvre des contrôles d’accès et le chiffrement est une pratique clé.' : 'La réponse correcte est "Implementing access controls and encryption". Cela partage les responsabilités de sécurité.',
+                'q7': isCorrect ? 'Un Virtual Private Cloud (VPC) fournit des environnements réseau isolés pour une sécurité accrue.' : 'La réponse correcte est "To provide isolated network environments". Cela améliore l’isolation.',
+                'q8': isCorrect ? 'Role-Based Access Control (RBAC) attribue les accès en fonction des rôles des utilisateurs.' : 'La réponse correcte est "Role-Based Access Control (RBAC)". Cela organise les accès par rôles.',
+                'q9': isCorrect ? 'Multi-Factor Authentication (MFA) renforce la sécurité en exigeant plusieurs méthodes de vérification.' : 'La réponse correcte est "Multi-Factor Authentication (MFA)". Cela ajoute des couches de sécurité.',
+                'q10': isCorrect ? 'Un security group agit comme un pare-feu virtuel pour contrôler le trafic dans le cloud.' : 'La réponse correcte est "A virtual firewall controlling traffic". Cela régule le trafic réseau.',
+                'q11': isCorrect ? 'Les outils de Data Loss Prevention (DLP) empêchent le partage non autorisé de données.' : 'La réponse correcte est "To prevent unauthorized data sharing". Cela protège les données sensibles.',
+                'q12': isCorrect ? 'Un Web Application Firewall (WAF) protège contre les attaques basées sur le web comme SQL injection.' : 'La réponse correcte est "Web-based attacks like SQL injection". Cela sécurise les applications web.',
+                'q13': isCorrect ? 'Un Intrusion Detection System (IDS) surveille les activités suspectes sur le réseau.' : 'La réponse correcte est "To monitor for suspicious activity". Cela détecte les menaces potentielles.',
+                'q14': isCorrect ? 'Le penetration testing identifie les vulnérabilités en simulant des attaques.' : 'La réponse correcte est "To identify vulnerabilities". Cela teste la sécurité du système.',
+                'q15': isCorrect ? 'L’architecture zero-trust exige la vérification de chaque utilisateur et appareil.' : 'La réponse correcte est "Verify every user and device". Cela élimine la confiance implicite.',
+                'q16': isCorrect ? 'La segmentation du réseau limite la propagation des attaques en isolant les segments.' : 'La réponse correcte est "Limits attack spread". Cela améliore la sécurité.',
+                'q17': isCorrect ? 'Une Demilitarized Zone (DMZ) héberge des services publics tout en protégeant le réseau interne.' : 'La réponse correcte est "To host public-facing services". Cela isole les services exposés.',
+                'q18': isCorrect ? 'Un VLAN fournit une séparation logique dans la segmentation du réseau.' : 'La réponse correcte est "Logical separation". Cela organise le réseau sans matériel supplémentaire.',
+                'q19': isCorrect ? 'IPsec fournit une communication sécurisée sur les réseaux IP.' : 'La réponse correcte est "IPsec". C’est un protocole sécurisé pour les réseaux.',
+                'q20': isCorrect ? 'Un Virtual Private Network (VPN) crée un tunnel sécurisé pour les communications.' : 'La réponse correcte est "To create a secure tunnel". Cela protège les données en transit.',
+                'q21': isCorrect ? 'SSL/TLS sécurise la navigation web en chiffrant les communications.' : 'La réponse correcte est "SSL/TLS". Cela garantit la sécurité des sites web.',
+                'q22': isCorrect ? 'Un proxy server filtre et anonymise le trafic pour améliorer la sécurité.' : 'La réponse correcte est "To filter and anonymize traffic". Cela protège l’identité et les données.',
+                'q23': isCorrect ? 'Une Endpoint Protection Platform (EPP) fournit une sécurité complète pour les appareils.' : 'La réponse correcte est "Comprehensive device security". Cela protège les points finaux.',
+                'q24': isCorrect ? 'Le patch management applique des mises à jour de sécurité pour corriger les vulnérabilités.' : 'La réponse correcte est "To apply security updates". Cela maintient les systèmes sécurisés.',
+                'q25': isCorrect ? 'Un Security Information and Event Management (SIEM) analyse les journaux de sécurité.' : 'La réponse correcte est "To analyze security logs". Cela détecte les incidents.',
+                'q26': isCorrect ? 'L’agrégation des journaux centralise l’analyse de sécurité pour une meilleure détection.' : 'La réponse correcte est "Centralizes security analysis". Cela améliore la surveillance.',
+                'q27': isCorrect ? 'Un honeypot attire et analyse les attaques pour comprendre les menaces.' : 'La réponse correcte est "To attract and analyze attacks". Cela aide à étudier les attaquants.',
+                'q28': isCorrect ? 'Le vulnerability scanning identifie les faiblesses des systèmes.' : 'La réponse correcte est "To identify system weaknesses". Cela guide les correctifs.',
+                'q29': isCorrect ? 'Une évaluation des risques priorise les mesures de sécurité en fonction des menaces.' : 'La réponse correcte est "To prioritize security measures". Cela optimise les ressources.',
+                'q30': isCorrect ? 'Le principe du moindre privilège garantit un accès minimal nécessaire.' : 'La réponse correcte est "Minimal necessary access". Cela réduit les risques d’abus.',
+                'q31': isCorrect ? 'Un Business Continuity Plan (BCP) maintient les opérations pendant les perturbations.' : 'La réponse correcte est "To maintain operations during disruptions". Cela assure la continuité.',
+                'q32': isCorrect ? 'Un Disaster Recovery Plan (DRP) restaure les systèmes IT après des incidents.' : 'La réponse correcte est "To restore IT systems after incidents". Cela minimise les temps d’arrêt.',
+                'q33': isCorrect ? 'Les alimentations électriques redondantes assurent un fonctionnement continu pendant les pannes.' : 'La réponse correcte est "Continuous operation during outages". Cela améliore la fiabilité.',
+                'q34': isCorrect ? 'Les systèmes à haute disponibilité (HA) minimisent les temps d’arrêt.' : 'La réponse correcte est "Minimal downtime". Cela garantit la disponibilité.',
+                'q35': isCorrect ? 'Le load balancing distribue le trafic réseau pour optimiser les performances.' : 'La réponse correcte est "To distribute network traffic". Cela améliore l’efficacité.',
+                'q36': isCorrect ? 'Un snapshot capture l’état d’un système pour la récupération.' : 'La réponse correcte est "To capture a system state". Cela facilite la restauration.',
+                'q37': isCorrect ? 'La data deduplication réduit les besoins de stockage dans les sauvegardes.' : 'La réponse correcte est "Reduced storage needs". Cela optimise l’espace.',
+                'q38': isCorrect ? 'Un hot site est entièrement équipé et prêt à fonctionner immédiatement.' : 'La réponse correcte est "Fully equipped and ready". Cela permet une reprise rapide.',
+                'q39': isCorrect ? 'Un cold site dispose d’une infrastructure minimale, nécessitant plus de temps pour la configuration.' : 'La réponse correcte est "Minimal infrastructure". Cela est moins coûteux mais plus lent.',
+                'q40': isCorrect ? 'Un warm site est partiellement équipé, offrant un compromis entre coût et vitesse.' : 'La réponse correcte est "Partially equipped". Cela équilibre coût et récupération.',
+                'q41': isCorrect ? 'Le failover bascule vers un système de secours en cas de panne.' : 'La réponse correcte est "To switch to a backup system". Cela assure la continuité.',
+                'q42': isCorrect ? 'Un Service Level Agreement (SLA) définit les attentes de performance.' : 'La réponse correcte est "Performance expectations". Cela clarifie les obligations.',
+                'q43': isCorrect ? 'La data sovereignty garantit la conformité aux lois locales sur les données.' : 'La réponse correcte est "To ensure legal compliance". Cela respecte les réglementations.',
+                'q44': isCorrect ? 'GDPR se concentre sur la protection des données personnelles.' : 'La réponse correcte est "GDPR". C’est une réglementation clé pour la confidentialité.',
+                'q45': isCorrect ? 'Une chaîne de custody documente la manipulation des preuves pour l’intégrité.' : 'La réponse correcte est "To document evidence handling". Cela est crucial pour les enquêtes.',
+                'q46': isCorrect ? 'La planification de la réponse aux incidents gère les incidents de sécurité.' : 'La réponse correcte est "To manage security incidents". Cela réduit l’impact.',
+                'q47': isCorrect ? 'Un tabletop exercise teste les plans de réponse aux incidents.' : 'La réponse correcte est "To test incident response plans". Cela prépare les équipes.',
+                'q48': isCorrect ? 'L’analyse forensic enquête sur les incidents de sécurité.' : 'La réponse correcte est "To investigate security incidents". Cela identifie les causes.',
+                'q49': isCorrect ? 'Une differential backup capture les modifications depuis la dernière sauvegarde complète.' : 'La réponse correcte est "Differential backup". Cela équilibre vitesse et stockage.',
+                'q50': isCorrect ? 'Une full backup capture toutes les données, indépendamment des sauvegardes précédentes.' : 'La réponse correcte est "Captures all data regardless of previous backups". Cela est complet mais lourd.',
+                'q51': isCorrect ? 'La résilience dans le cloud permet une récupération rapide des perturbations.' : 'La réponse correcte est "Ability to recover quickly from disruptions". Cela assure la continuité.',
+                'q52': isCorrect ? 'Les fournisseurs cloud améliorent la résilience via la redondance géographique.' : 'La réponse correcte est "By implementing geographic redundancy". Cela réduit les risques.',
+                'q53': isCorrect ? 'Les embedded systems dans l’IoT ont une puissance de traitement limitée.' : 'La réponse correcte est "Limited processing power". Cela pose des défis de sécurité.',
+                'q54': isCorrect ? 'Un Real-time OS est utilisé dans les équipements industriels en temps réel.' : 'La réponse correcte est "Real-time OS". Cela garantit des réponses rapides.',
+                'q55': isCorrect ? 'MQTT est couramment utilisé pour la communication des systèmes embarqués dans l’IoT.' : 'La réponse correcte est "MQTT". C’est un protocole léger et efficace.',
+                'q56': isCorrect ? 'La segmentation isole les systèmes embarqués pour améliorer la sécurité.' : 'La réponse correcte est "To isolate systems and enhance security". Cela limite les attaques.',
+                'q57': isCorrect ? 'Les systèmes embarqués ont des ressources limitées en mémoire et traitement.' : 'La réponse correcte est "Limited memory and processing resources". Cela affecte leur conception.',
+                'q58': isCorrect ? 'Les contraintes des systèmes embarqués nécessitent des protocoles de sécurité légers.' : 'La réponse correcte est "They require lightweight security protocols". Cela adapte la sécurité.',
+                'q59': isCorrect ? 'Les biometric locks restreignent l’accès aux centres de données.' : 'La réponse correcte est "Biometric locks". Cela améliore la sécurité physique.',
+                'q60': isCorrect ? 'Les caméras de surveillance surveillent et dissuadent les accès non autorisés.' : 'La réponse correcte est "To monitor and deter unauthorized access". Cela renforce la sécurité.',
+                'q61': isCorrect ? 'Une zone sécurisée exige une entrée contrôlée avec authentification.' : 'La réponse correcte est "Controlled entry with authentication". Cela protège les actifs.',
+                'q62': isCorrect ? 'Les mantraps améliorent la sécurité dans les zones restreintes.' : 'La réponse correcte est "Implementing mantraps". Cela contrôle les accès.',
+                'q63': isCorrect ? 'Le physical shredding est une méthode sécurisée pour détruire les supports physiques.' : 'La réponse correcte est "Physical shredding". Cela empêche la récupération des données.',
+                'q64': isCorrect ? 'Le dégaussage efface les supports magnétiques pour détruire les données.' : 'La réponse correcte est "To erase magnetic media". Cela est sécurisé et irréversible.',
+                'q65': isCorrect ? 'La vérification des antécédents garantit la fiabilité du personnel.' : 'La réponse correcte est "To ensure trustworthiness". Cela réduit les risques internes.',
+                'q66': isCorrect ? 'La security awareness training réduit les risques de social engineering.' : 'La réponse correcte est "Security awareness training". Cela éduque les employés.',
+                'q67': isCorrect ? 'Un Non-Disclosure Agreement (NDA) garantit la confidentialité avec les fournisseurs.' : 'La réponse correcte est "To ensure confidentiality". Cela protège les informations sensibles.',
+                'q68': isCorrect ? 'Auditer les fournisseurs tiers vérifie leur conformité à la sécurité.' : 'La réponse correcte est "To verify security compliance". Cela réduit les risques externes.',
+                'q69': isCorrect ? 'Un comité de gouvernance de la sécurité supervise les politiques de sécurité.' : 'La réponse correcte est "To oversee security policies". Cela assure la cohérence.',
+                'q70': isCorrect ? 'Les audits de sécurité réguliers garantissent la conformité et identifient les lacunes.' : 'La réponse correcte est "To ensure compliance and identify gaps". Cela améliore la sécurité.',
+                'q71': isCorrect ? 'L’atténuation des risques réduit l’impact des menaces potentielles.' : 'La réponse correcte est "To reduce risk impact". Cela protège les actifs.',
+                'q72': isCorrect ? 'Le transfert de risque déplace la responsabilité vers une autre partie.' : 'La réponse correcte est "Shifting risk to another party". Cela peut inclure des assurances.',
+                'q73': isCorrect ? 'Évaluer les risques des tiers identifie les vulnérabilités externes.' : 'La réponse correcte est "To identify external vulnerabilities". Cela sécurise les partenariats.',
+                'q74': isCorrect ? 'Les vendor security assessments sont un exemple de gestion des risques des tiers.' : 'La réponse correcte est "Vendor security assessments". Cela vérifie la conformité.',
+                'q75': isCorrect ? 'Les compromised hardware components sont un exemple de risque lié à la chaîne d’approvisionnement.' : 'La réponse correcte est "Compromised hardware components". Cela menace la sécurité.',
+                'q76': isCorrect ? 'Diversifier les fournisseurs atténue les risques de la chaîne d’approvisionnement.' : 'La réponse correcte est "Diversifying suppliers". Cela réduit la dépendance.',
+                'q77': isCorrect ? 'Le chiffrement symétrique utilise une seule clé pour sécuriser les données.' : 'La réponse correcte est "To secure data with a single key". Cela est rapide et efficace.',
+                'q78': isCorrect ? 'RSA est un exemple d’algorithme de chiffrement asymétrique.' : 'La réponse correcte est "RSA". Il utilise des paires de clés publique/privée.',
+                'q79': isCorrect ? 'La rotation des clés améliore la sécurité cryptographique.' : 'La réponse correcte est "To enhance cryptographic security". Cela limite l’exposition.',
+                'q80': isCorrect ? 'Un Hardware Security Module (HSM) gère les clés de manière sécurisée.' : 'La réponse correcte est "Hardware Security Module (HSM)". Cela protège les clés.',
+                'q81': isCorrect ? 'Une signature numérique vérifie l’authenticité et l’intégrité des données.' : 'La réponse correcte est "To verify authenticity and integrity". Cela garantit la confiance.',
+                'q82': isCorrect ? 'Une signature numérique est créée via le chiffrement par clé privée.' : 'La réponse correcte est "Private key encryption". Cela authentifie l’expéditeur.',
+                'q83': isCorrect ? 'Une Certificate Authority (CA) émet des certificats numériques dans une PKI.' : 'La réponse correcte est "To issue digital certificates". Cela établit la confiance.',
+                'q84': isCorrect ? 'Une Certificate Revocation List (CRL) suit les certificats révoqués.' : 'La réponse correcte est "To track revoked certificates". Cela maintient la sécurité.'
+            };
+            return explanations[questionName] || 'Aucune explication disponible.';
+        }
+    </script>
+</body>
+</html>
